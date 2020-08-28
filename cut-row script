@@ -1,0 +1,18 @@
+proc cut_rows_near_macro {value} {
+   set my_macros [all_macro_cells]
+   foreach_in_collection a $my_macros {
+     set macro_llx [lindex [get_attribute [get_cells $a] bbox_ll] 0]
+     set macro_lly [lindex [get_attribute [get_cells $a] bbox_ll] 1]
+     set macro_urx [lindex [get_attribute [get_cells $a] bbox_ur] 0]
+     set macro_ury [lindex [get_attribute [get_cells $a] bbox_ur] 1]
+     set macro_llx_new [expr $macro_llx - $value]
+     set macro_urx_new [expr $macro_urx + $value]
+     set macro_lly_new [expr $macro_lly - $value]
+     set macro_ury_new [expr $macro_ury + $value]
+     puts "cut_row -within \"$macro_llx_new $macro_lly_new $macro_urx_new $macro_ury_new\""
+     cut_row -within [list $macro_llx_new $macro_lly_new $macro_urx_new $macro_ury_new]
+   }
+}
+
+cut_rows_near_macro 0.5
+                
